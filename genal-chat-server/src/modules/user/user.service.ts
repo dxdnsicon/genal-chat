@@ -9,7 +9,7 @@ import { RCode } from 'src/common/constant/rcode';
 import { GroupMessage } from '../group/entity/groupMessage.entity';
 import { UserMap } from '../friend/entity/friend.entity';
 import { FriendMessage } from '../friend/entity/friendMessage.entity';
-import { nameVerify, passwordVerify } from 'src/common/tool/utils';
+import { encrypt, nameVerify, passwordVerify } from 'src/common/tool/utils';
 
 @Injectable()
 export class UserService {
@@ -73,7 +73,7 @@ export class UserService {
         }
         const newUser = JSON.parse(JSON.stringify(oldUser));
         newUser.username = user.username;
-        newUser.password = user.password;
+        newUser.password = encrypt(user.password);
         await this.userRepository.update(oldUser,newUser);
         return { msg:'更新用户名成功', data: newUser};
       }
@@ -88,8 +88,8 @@ export class UserService {
       const oldUser = await this.userRepository.findOne({userId: user.userId, username: user.username, password: user.password});
       if(oldUser && passwordVerify(password)) {
         const newUser = JSON.parse(JSON.stringify(oldUser));
-        newUser.password = password;
-        await this.userRepository.update(oldUser, newUser);
+        newUser.password = encrypt(password);
+        await this.userRepository.save(newUser);
         return { msg:'更新用户密码成功', data: newUser};
       } 
       return {code: RCode.FAIL, msg:'更新失败', data: '' };
@@ -157,7 +157,7 @@ export class UserService {
       const stream = createWriteStream(join('public/avatar', random + file.originalname));
       stream.write(file.buffer);
       newUser.avatar = `api/avatar/${random}${file.originalname}`;
-      newUser.password = user.password;
+      newUser.password = encrypt(user.password);
       await this.userRepository.save(newUser);
       return { msg: '修改头像成功', data: newUser};
     } else {

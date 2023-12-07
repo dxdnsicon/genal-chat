@@ -5,7 +5,7 @@ interface GroupDto {
   groupName: string;
   notice: string;
   messages?: GroupMessageDto[];
-  createTime: number;
+  createTime: string;
 }
 
 // 群消息
@@ -27,7 +27,7 @@ interface FriendDto {
   role?: string;
   tag?: string;
   messages?: FriendMessageDto[];
-  createTime: number;
+  createTime: string;
 }
 
 // 好友消息

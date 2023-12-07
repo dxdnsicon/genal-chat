@@ -2,10 +2,11 @@ import { GetterTree } from 'vuex';
 import { AppState } from './state';
 import { RootState } from '../../index';
 import cookie from 'js-cookie';
+import { decrypt } from '@/utils/common';
 const getters: GetterTree<AppState, RootState> = {
   user(state) {
     state.user;
-    let user = cookie.get('user');
+    let user = decrypt(cookie.get('user') || '');
     if (!user) {
       return {};
     }

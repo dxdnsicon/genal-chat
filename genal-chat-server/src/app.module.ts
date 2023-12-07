@@ -5,14 +5,16 @@ import { ChatModule } from './modules/chat/chat.module';
 import { FriendModule } from './modules/friend/friend.module';
 import { GroupModule } from './modules/group/group.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { DB_HOST, DB_USER, DB_PASSWORD, DB_PORT } from './config';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      port: 3306,
-      username: 'root',
-      password: '123456',
+      type: "mysql",
+      host: DB_HOST,
+      port: +DB_PORT,
+      username: DB_USER,
+      password: DB_PASSWORD,
       database: 'chat',
       charset: "utf8mb4", // 设置chatset编码为utf8mb4
       autoLoadEntities: true,

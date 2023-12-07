@@ -17,3 +17,16 @@ export async function getGroupMessages(params: PagingParams) {
     params,
   });
 }
+
+/**
+ * 创建群租
+ * @param params
+ */
+export async function createGroup() {
+  return await fetch.post(`/group/createGroup`, {
+    // @ts-ignore
+    groupName: 'shining',
+  });
+}
+
+// createGroup();

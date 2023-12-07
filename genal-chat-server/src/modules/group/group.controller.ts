@@ -7,6 +7,10 @@ import { AuthGuard } from '@nestjs/passport';
 export class GroupController {
   constructor(private readonly groupService: GroupService) {}
 
+  @Post('/createGroup')
+  createGroup(@Body() body: {groupName: string}) {
+    return this.groupService.createGroup(body);
+  }
 
   @Post()
   postGroups(@Body('groupIds') groupIds: string) {

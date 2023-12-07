@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
+import { roomId } from '../const/index';
+console.log('roomId', roomId)
 
 Vue.use(VueRouter);
 
@@ -7,7 +9,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Chat',
-    component: () => import('@/views/GenalChat.vue'),
+    component: () => !roomId ? import('@/views/NoRoomId.vue') : import('@/views/GenalChat.vue'),
   },
 ];
 

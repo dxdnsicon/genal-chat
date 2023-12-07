@@ -13,6 +13,7 @@
     "ant-design-vue": "^1.6.2",
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
+    "crypto-js": "^4.2.0",
     "js-cookie": "^2.2.1",
     "less-loader": "^6.1.2",
     "moment": "^2.27.0",
@@ -28,6 +29,8 @@
     "vuex-class": "^0.3.2"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.2.1",
+    "@types/node": "^20.10.4",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "^4.4.0",

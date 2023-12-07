@@ -1,11 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn("uuid")
   userId: string;
 
-  @Column({ default: '陈冠希' })
+  @Column({ default: 'shining' })
   username: string;
 
   @Column({ default: '123456', select: false })
@@ -23,6 +23,6 @@ export class User {
   @Column({ default: '' })
   tag: string;
 
-  @Column({type: 'double',default: new Date().valueOf()})
-  createTime: number;
+  @CreateDateColumn()
+  createTime: string;
 }

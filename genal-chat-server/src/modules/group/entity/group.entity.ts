@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
 
 @Entity()
 export class Group {
@@ -11,11 +11,11 @@ export class Group {
   @Column()
   groupName: string;
 
-  @Column({ default: '群主很懒,没写公告' })
+  @Column({ default: '' })
   notice: string;
 
-  @Column({type: 'double',default: new Date().valueOf()})
-  createTime: number;
+  @CreateDateColumn()
+  createTime: string;
 }
 
 @Entity()

@@ -18,13 +18,13 @@ import {
   DEL_FRIEND,
   ADD_UNREAD_GATHER,
 } from './mutation-types';
-import { DEFAULT_GROUP } from '@/const/index';
+import { DEFAULT_GROUP, roomId } from '@/const/index';
 
 const actions: ActionTree<ChatState, RootState> = {
   // 初始化socket连接和监听socket事件
   async connectSocket({ commit, state, dispatch, rootState }, callback) {
     let user = rootState.app.user;
-    let socket: SocketIOClient.Socket = io.connect(`/?userId=${user.userId}`, { reconnection: true });
+    let socket: SocketIOClient.Socket = io.connect(`/?userId=${user.userId}&room=${roomId}`, { reconnection: true });
 
     socket.on('connect', async () => {
       console.log('连接成功');
@@ -82,6 +82,7 @@ const actions: ActionTree<ChatState, RootState> = {
       let newUser: Friend = res.data.user;
       let group: Group = res.data.group;
       let friendGather = state.friendGather;
+
       if (newUser.userId != user.userId) {
         commit(SET_USER_GATHER, newUser);
         if (friendGather[newUser.userId]) {
@@ -164,6 +165,9 @@ const actions: ActionTree<ChatState, RootState> = {
         return Vue.prototype.$message.error(res.msg);
       }
       dispatch('handleChatData', res.data);
+      if (res.data && res.data.groupData && res.data.groupData[0]) {
+        commit(SET_ACTIVE_ROOM, res.data.groupData[0]);
+      }
       commit(SET_DROPPED, false);
     });
 

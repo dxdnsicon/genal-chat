@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import { AxiosResponse } from 'axios';
+import CryptoJS from 'crypto-js';
 
 // 处理所有后端返回的数据
 export function processReturn(res: AxiosResponse<ServerRes>) {
@@ -104,3 +105,40 @@ export function passwordVerify(password: string): boolean {
   }
   return true;
 }
+
+const SECRET_KEY = CryptoJS.enc.Utf8.parse('sakdaldjqw12213')
+const SECRET_IV = CryptoJS.enc.Utf8.parse('asldkasdljo')
+// 加密
+export const encrypt = (plaintext: string): string => {
+  const dataHex = CryptoJS.enc.Utf8.parse(plaintext)
+  const encrypted = CryptoJS.DES.encrypt(dataHex, SECRET_KEY, {
+    iv: SECRET_IV,
+    mode: CryptoJS.mode.ECB,
+    padding: CryptoJS.pad.Pkcs7
+  })
+  return encrypted.ciphertext.toString(CryptoJS.enc.Hex).toUpperCase()
+}
+
+// 解密
+export const decrypt = (encryptText: string): string => {
+  const encryptedHexStr = CryptoJS.enc.Hex.parse(encryptText)
+  const str = CryptoJS.enc.Base64.stringify(encryptedHexStr)
+  const decrypt = CryptoJS.DES.decrypt(str, SECRET_KEY, {
+    iv: SECRET_IV,
+    mode: CryptoJS.mode.ECB,
+    padding: CryptoJS.pad.Pkcs7
+  })
+  const decryptedStr = decrypt.toString(CryptoJS.enc.Utf8)
+  return decryptedStr.toString()
+}
+
+export function getParam(name: string) {
+  var u = location.href.split('#')[0]; //去掉hash
+
+  var m = u.match(new RegExp("(\\?|&)" + name + "=(.*?)(#|&|$)", 'i'));
+  return decodeURIComponent(m ? m[2] : '');
+}
+
+
+window['encrypt'] = encrypt;
+window['decrypt'] = decrypt;

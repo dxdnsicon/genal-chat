@@ -16,7 +16,7 @@ import { FriendMessage } from '../friend/entity/friendMessage.entity';
 import { createWriteStream } from 'fs';
 import { join } from 'path';
 import { RCode } from 'src/common/constant/rcode';
-import { nameVerify } from 'src/common/tool/utils';
+import { encrypt, nameVerify } from 'src/common/tool/utils';
 
 @WebSocketGateway()
 export class ChatGateway {
@@ -34,7 +34,7 @@ export class ChatGateway {
     @InjectRepository(FriendMessage)
     private readonly friendMessageRepository: Repository<FriendMessage>,
   ) {
-    this.defaultGroup = '阿童木聊天室';
+    this.defaultGroup = '';
   }
 
   @WebSocketServer()
@@ -46,8 +46,10 @@ export class ChatGateway {
   // socket连接钩子
   async handleConnection(client: Socket): Promise<string> {
     const userRoom = client.handshake.query.userId;
+    const roomId = client.handshake.query.room;
+    console.log('roomId', roomId);
     // 连接默认加入"阿童木聊天室"房间
-    client.join(this.defaultGroup);
+    client.join(roomId || this.defaultGroup);
     // 进来统计一下在线人数
     this.getActiveGroupUser();
     // 用户独有消息房间 根据userId
@@ -300,7 +302,7 @@ export class ChatGateway {
       const groups: GroupDto[]  = await Promise.all(groupPromise);
       const groupsMessage: Array<GroupMessageDto[]> = await Promise.all(groupMessagePromise);
       groups.map((group,index)=>{
-        if(groupsMessage[index] && groupsMessage[index].length) {
+        if(groupsMessage[index] && groupsMessage[index].length && group) {
           group.messages = groupsMessage[index];
         }
       });

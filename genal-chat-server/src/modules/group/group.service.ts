@@ -15,7 +15,43 @@ export class GroupService {
     private readonly groupUserRepository: Repository<GroupMap>,
     @InjectRepository(GroupMessage)
     private readonly groupMessageRepository: Repository<GroupMessage>,
+    @InjectRepository(User)
+    private readonly UserRepository: Repository<User>,
   ) {}
+
+  async createGroup(body: {
+    groupName: string
+  }) {
+    try { 
+      const { groupName } = body;
+      const isHaveGroup = await this.groupRepository.findOne({ groupName: groupName });
+      if (isHaveGroup) {
+        throw '该群名字已存在';
+      }
+      const newGroup = new Group();
+      newGroup.groupName = groupName;
+      newGroup.notice = 'admin';
+      newGroup.userId = 'admin';
+      const data = await this.groupRepository.save(newGroup);
+
+      const owner = await this.UserRepository.findOne({role: 'owner'});
+
+      if (owner) {
+        await this.groupUserRepository.save({
+          userId: owner.userId,
+          groupId: data.groupId
+        });
+      }
+      
+      return  {
+        code: 0,
+        message: '创建群成功'
+      };
+
+    } catch(e) {
+      return {code: RCode.ERROR, msg:'创建群失败',data: e};
+    }
+  }
 
   async postGroups(groupIds: string) {
     try {
