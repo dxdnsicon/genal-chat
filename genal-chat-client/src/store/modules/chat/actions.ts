@@ -110,7 +110,6 @@ const actions: ActionTree<ChatState, RootState> = {
     });
 
     socket.on('groupMessage', (res: ServerRes) => {
-      console.log('on groupMessage', res);
       if (!res.code) {
         commit(ADD_GROUP_MESSAGE, res.data);
         let activeRoom = state.activeRoom;

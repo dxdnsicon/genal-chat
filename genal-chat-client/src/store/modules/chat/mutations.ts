@@ -19,6 +19,8 @@ import {
 import { ChatState } from './state';
 import { MutationTree } from 'vuex';
 import { DEFAULT_GROUP } from '@/const';
+import remakeChat from './strategy';
+
 
 const mutations: MutationTree<ChatState> = {
   // 保存socket
@@ -43,6 +45,7 @@ const mutations: MutationTree<ChatState> = {
 
   // 新增一条群消息
   [ADD_GROUP_MESSAGE](state, payload: GroupMessage) {
+    payload = remakeChat(payload);
     if (state.groupGather[payload.groupId].messages) {
       state.groupGather[payload.groupId].messages!.push(payload);
     } else {
@@ -53,7 +56,9 @@ const mutations: MutationTree<ChatState> = {
 
   // 设置群消息
   [SET_GROUP_MESSAGES](state, payload: GroupMessage[]) {
+    console.log('payload', payload)
     if (payload && payload.length) {
+      payload = remakeChat(payload);
       Vue.set(state.groupGather[payload[0].groupId], 'messages', payload);
     }
   },
@@ -81,6 +86,7 @@ const mutations: MutationTree<ChatState> = {
   [SET_FRIEND_MESSAGES](state, payload: FriendMessage[]) {
     // @ts-ignore
     let userId = this.getters['app/user'].userId;
+    payload = remakeChat(payload);
     if (payload && payload.length) {
       if (payload[0].friendId === userId) {
         Vue.set(state.friendGather[payload[0].userId], 'messages', payload);
@@ -92,12 +98,16 @@ const mutations: MutationTree<ChatState> = {
 
   // 设置当前聊天对象(群或好友)
   [SET_ACTIVE_ROOM](state, payload: Friend & Group) {
-    console.log('房间change', payload)
+    // console.log('房间change', payload)
     state.activeRoom = payload;
   },
 
   // 设置所有的群的群详细信息(头像,群名字等)
   [SET_GROUP_GATHER](state, payload: Group) {
+    payload = remakeChat(payload);
+    if (payload.messages) {
+      payload.messages = remakeChat(payload.messages);
+    }
     Vue.set(state.groupGather, payload.groupId, payload);
   },
 

@@ -134,6 +134,10 @@ export class ChatGateway {
   @SubscribeMessage('groupMessage')
   async sendGroupMessage(@MessageBody() data: GroupMessageDto):Promise<any> {
     const isUser = await this.userRepository.findOne({userId: data.userId});
+    // console.log('data', data);
+    if (data.content) {
+      data.content = encrypt(data.content, true);
+    }
     if(isUser) {
       const userGroupMap = await this.groupUserRepository.findOne({userId: data.userId, groupId: data.groupId});
       if(!userGroupMap || !data.groupId) {
