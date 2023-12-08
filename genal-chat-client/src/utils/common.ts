@@ -153,7 +153,7 @@ export function formateTime(time: any, fmt: string | 'timestamps' = 'yyyy-MM-dd 
 const SECRET_KEY = CryptoJS.enc.Utf8.parse('sakdaldjqw12213');
 const SECRET_IV = CryptoJS.enc.Utf8.parse('asldkasdljo');
 
-const day = formateTime(new Date(), 'yyyyMMdd') as string;
+const day = formateTime(new Date(), 'yyyyMMddhh') as string;
 const SECRET_KEY_DAY = CryptoJS.enc.Utf8.parse(day);
 const SECRET_IV_DAY = CryptoJS.enc.Utf8.parse(day);
 // 加密
