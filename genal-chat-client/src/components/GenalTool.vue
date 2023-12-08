@@ -72,7 +72,7 @@
             src="https://images.weserv.nl/?url=https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/23fa890c0c244db1b2d6e0927113475c~tplv-k3u1fbpfcp-zoom-1.image?imageView2/2/w/800/q/85"
             alt=""
           />
-          <span class="text">阿童木</span>
+          <span class="text">shining</span>
         </div>
         <div
           class="recommend"

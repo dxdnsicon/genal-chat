@@ -5,8 +5,9 @@ import { ChatModule } from './modules/chat/chat.module';
 import { FriendModule } from './modules/friend/friend.module';
 import { GroupModule } from './modules/group/group.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { ScheduleModule } from '@nestjs/schedule';
 import { DB_HOST, DB_USER, DB_PASSWORD, DB_PORT } from './config';
-
+import { MyTaskService } from './schedule';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -24,7 +25,11 @@ import { DB_HOST, DB_USER, DB_PASSWORD, DB_PORT } from './config';
     ChatModule,
     FriendModule,
     GroupModule,
-    AuthModule
+    AuthModule,
+    ScheduleModule.forRoot()
   ],
+  providers: [
+    MyTaskService
+  ]
 })
 export class AppModule {}
