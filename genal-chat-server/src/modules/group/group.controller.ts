@@ -2,7 +2,7 @@ import { Controller, Post, Get, Body, Query, UseGuards } from '@nestjs/common';
 import { GroupService } from './group.service';
 import { AuthGuard } from '@nestjs/passport';
 
-@Controller('group')
+@Controller('api/group')
 @UseGuards(AuthGuard('jwt'))
 export class GroupController {
   constructor(private readonly groupService: GroupService) {}

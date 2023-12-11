@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "index": "ln -s ./public ../genal-chat-server/front"
+    "index": "ln -s ../genal-chat-client/dist ../genal-chat-server/front"
   },
   "dependencies": {
     "@types/js-cookie": "^2.2.6",

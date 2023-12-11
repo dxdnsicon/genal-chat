@@ -28,12 +28,12 @@ async function bootstrap() {
   });
 
   // 配置静态资源
-  // app.useStaticAssets(join(__dirname, '../front', '/'), {
-  //   prefix: '/', 
-  //   setHeaders: res => {
-  //     res.set('Cache-Control', 'max-age=2592000');
-  //   }
-  // });
+  app.useStaticAssets(join(__dirname, '../front', '/'), {
+    prefix: '/', 
+    setHeaders: res => {
+      res.set('Cache-Control', 'max-age=2592000');
+    }
+  });
 
   await app.listen(3000);
 }
