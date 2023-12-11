@@ -156,7 +156,7 @@ export class UserService {
       const random = Date.now() + '&';
       const stream = createWriteStream(join('public/avatar', random + file.originalname));
       stream.write(file.buffer);
-      newUser.avatar = `api/avatar/${random}${file.originalname}`;
+      newUser.avatar = `avatar/${random}${file.originalname}`;
       newUser.password = encrypt(user.password);
       await this.userRepository.save(newUser);
       return { msg: '修改头像成功', data: newUser};
