@@ -92,9 +92,9 @@ export default class GenalMessage extends Vue {
 
   get chatName() {
     if (this.groupGather[this.activeRoom.groupId]) {
-      return this.groupGather[this.activeRoom.groupId].groupName;
+      return this.groupGather?.[this.activeRoom.groupId]?.groupName;
     } else {
-      return this.userGather[this.activeRoom.userId].username;
+      return this.userGather?.[this.activeRoom.userId]?.username;
     }
   }
 

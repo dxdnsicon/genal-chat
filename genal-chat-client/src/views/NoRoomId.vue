@@ -12,17 +12,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-
 @Component({
-  components: {
-  },
+  components: {},
 })
 export default class GenalChat extends Vue {
-  created() {
-
-  }
+  created() {}
 }
 </script>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

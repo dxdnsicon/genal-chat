@@ -21,7 +21,6 @@ import { MutationTree } from 'vuex';
 import { DEFAULT_GROUP } from '@/const';
 import remakeChat from './strategy';
 
-
 const mutations: MutationTree<ChatState> = {
   // 保存socket
   [SET_SOCKET](state, payload: SocketIOClient.Socket) {
@@ -56,7 +55,7 @@ const mutations: MutationTree<ChatState> = {
 
   // 设置群消息
   [SET_GROUP_MESSAGES](state, payload: GroupMessage[]) {
-    console.log('payload', payload)
+    console.log('payload', payload);
     if (payload && payload.length) {
       payload = remakeChat(payload);
       Vue.set(state.groupGather[payload[0].groupId], 'messages', payload);

@@ -83,8 +83,7 @@ const SECRET_KEY_DAY = CryptoJS.enc.Utf8.parse(day);
 const SECRET_IV_DAY = CryptoJS.enc.Utf8.parse(day);
 // 加密
 export const encrypt = (plaintext: string, isDay = false): string => {
-  const dataHex = CryptoJS.enc.Utf8.parse(plaintext);
-  console.log('key', isDay ? SECRET_KEY_DAY : SECRET_KEY);
+  const dataHex = CryptoJS.enc.Utf8.parse(encodeURIComponent(plaintext));
   const encrypted = CryptoJS.DES.encrypt(dataHex, isDay ? SECRET_KEY_DAY : SECRET_KEY, {
     iv: isDay ? SECRET_IV_DAY : SECRET_IV,
     mode: CryptoJS.mode.ECB,
@@ -95,9 +94,8 @@ export const encrypt = (plaintext: string, isDay = false): string => {
 
 // 解密
 export const decrypt = (encryptText: string, isDay = false): string => {
-  const encryptedHexStr = CryptoJS.enc.Hex.parse(encryptText);
+  const encryptedHexStr = CryptoJS.enc.Hex.parse(decodeURIComponent(encryptText));
   const str = CryptoJS.enc.Base64.stringify(encryptedHexStr);
-  console.log('key', isDay ? SECRET_KEY_DAY : SECRET_KEY);
   const decrypt = CryptoJS.DES.decrypt(str, isDay ? SECRET_KEY_DAY : SECRET_KEY, {
     iv: isDay ? SECRET_IV_DAY : SECRET_IV,
     mode: CryptoJS.mode.ECB,
