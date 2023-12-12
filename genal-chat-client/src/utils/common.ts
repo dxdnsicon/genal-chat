@@ -168,7 +168,7 @@ export const encrypt = (plaintext: string, isDay = false): string => {
 
 // 解密
 export const decrypt = (encryptText: string, isDay = false): string => {
-  const encryptedHexStr = CryptoJS.enc.Hex.parse(decodeURIComponent(encryptText));
+  const encryptedHexStr = CryptoJS.enc.Hex.parse(encryptText);
   const str = CryptoJS.enc.Base64.stringify(encryptedHexStr);
   const decrypt = CryptoJS.DES.decrypt(str, isDay ? SECRET_KEY_DAY : SECRET_KEY, {
     iv: isDay ? SECRET_IV_DAY : SECRET_IV,
@@ -176,7 +176,7 @@ export const decrypt = (encryptText: string, isDay = false): string => {
     padding: CryptoJS.pad.Pkcs7,
   });
   const decryptedStr = decrypt.toString(CryptoJS.enc.Utf8);
-  return decryptedStr.toString();
+  return decodeURIComponent(decryptedStr.toString());
 };
 
 (window as any)['encrypt'] = encrypt;
