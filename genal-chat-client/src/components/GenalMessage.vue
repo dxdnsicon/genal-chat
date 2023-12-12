@@ -24,9 +24,9 @@
             <div>
               <a class="message-content-text" v-if="_isUrl(item.content)" :href="item.content" target="_blank">{{ item.content }}</a>
               <div class="message-content-text" v-text="_parseText(item.content)" v-else-if="item.messageType === 'text'"></div>
-              <div class="message-content-image" v-if="item.messageType === 'image'" :style="getImageStyle(item.content)">
+              <div class="message-content-image" v-if="item.messageType === 'image'" :style="getImageStyle(_parseText(item.content))">
                 <viewer style="display:flex;align-items:center;">
-                  <img :src="'static/' + item.content" alt="" />
+                  <img :src="'static/' + _parseText(item.content)" alt="" />
                 </viewer>
               </div>
             </div>
