@@ -1,1 +1,3 @@
-export const socketUrl = '/api';
+import { SERVER } from "@/const";
+
+export const socketUrl = `${SERVER}api`;

@@ -18,13 +18,12 @@ import {
   DEL_FRIEND,
   ADD_UNREAD_GATHER,
 } from './mutation-types';
-import { DEFAULT_GROUP, roomId } from '@/const/index';
-
+import { DEFAULT_GROUP, roomId, SERVER } from '@/const/index';
 const actions: ActionTree<ChatState, RootState> = {
   // 初始化socket连接和监听socket事件
   async connectSocket({ commit, state, dispatch, rootState }, callback) {
     let user = rootState.app.user;
-    let socket: SocketIOClient.Socket = io.connect(`/?userId=${user.userId}&room=${roomId}`, { reconnection: true });
+    let socket: SocketIOClient.Socket = io.connect(`${SERVER}/?userId=${user.userId}&room=${roomId}`, { reconnection: true });
 
     socket.on('connect', async () => {
       console.log('连接成功');
