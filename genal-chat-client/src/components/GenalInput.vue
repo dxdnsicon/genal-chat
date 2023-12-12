@@ -138,7 +138,7 @@ export default class GenalInput extends Vue {
         userId: this.user.userId,
         groupId: this.activeRoom.groupId,
         // @ts-ignore
-        content: data.messageType === 'messageType' ? encrypt(data.message, true) : data.message,
+        content: data.messageType === 'text' ? encrypt(data.message, true) : data.message,
         width: data.width,
         height: data.height,
         messageType: data.messageType,
@@ -148,7 +148,7 @@ export default class GenalInput extends Vue {
         userId: this.user.userId,
         friendId: this.activeRoom.userId,
         // @ts-ignore
-        content: data.messageType === 'messageType' ? encrypt(data.message, true) : data.message,
+        content: data.messageType === 'text' ? encrypt(data.message, true) : data.message,
         width: data.width,
         height: data.height,
         messageType: data.messageType,
