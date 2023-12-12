@@ -25,6 +25,7 @@ const actions: ActionTree<AppState, RootState> = {
     if (data) {
       commit(SET_USER, data.user);
       commit(SET_TOKEN, data.token);
+      location.reload();
       return data;
     }
   },

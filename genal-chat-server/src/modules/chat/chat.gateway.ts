@@ -20,6 +20,7 @@ import { encrypt, nameVerify } from 'src/common/tool/utils';
 
 @WebSocketGateway()
 export class ChatGateway {
+  roomId = '';
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -48,7 +49,7 @@ export class ChatGateway {
     const userRoom = client.handshake.query.userId;
     const roomId = client.handshake.query.room;
     console.log('roomId', roomId);
-    // 连接默认加入"阿童木聊天室"房间
+    this.roomId = roomId;
     client.join(roomId || this.defaultGroup);
     // 进来统计一下在线人数
     this.getActiveGroupUser();
@@ -386,8 +387,8 @@ export class ChatGateway {
         });
       }
     }
-
-    this.server.to(this.defaultGroup).emit('activeGroupUser',{
+    console.log('activeGroupUserGather', this.roomId);
+    this.server.to(this.roomId || this.defaultGroup).emit('activeGroupUser',{
       msg: 'activeGroupUser', 
       data: activeGroupUserGather
     });
