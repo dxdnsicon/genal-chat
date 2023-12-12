@@ -37,6 +37,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import GenalEmoji from './GenalEmoji.vue';
+import { encrypt } from '../utils/common'
 import { namespace } from 'vuex-class';
 const chatModule = namespace('chat');
 const appModule = namespace('app');
@@ -136,7 +137,8 @@ export default class GenalInput extends Vue {
       this.socket.emit('groupMessage', {
         userId: this.user.userId,
         groupId: this.activeRoom.groupId,
-        content: data.message,
+        // @ts-ignore
+        content: data.messageType === 'messageType' ? encrypt(data.message, true) : data.message,
         width: data.width,
         height: data.height,
         messageType: data.messageType,
@@ -145,7 +147,8 @@ export default class GenalInput extends Vue {
       this.socket.emit('friendMessage', {
         userId: this.user.userId,
         friendId: this.activeRoom.userId,
-        content: data.message,
+        // @ts-ignore
+        content: data.messageType === 'messageType' ? encrypt(data.message, true) : data.message,
         width: data.width,
         height: data.height,
         messageType: data.messageType,
@@ -242,9 +245,9 @@ export default class GenalInput extends Vue {
     if (!isJpgOrPng) {
       return this.$message.error('请选择jpeg/jpg/png/gif格式的图片!');
     }
-    const isLt1M = imageFile.size / 1024 / 1024 < 0.5;
+    const isLt1M = imageFile.size / 1024 / 1024 < 1;
     if (!isLt1M) {
-      return this.$message.error('图片必须小于500K!');
+      return this.$message.error('图片必须小于1M!');
     }
     let image = new Image();
     let url = window.URL || window.webkitURL;

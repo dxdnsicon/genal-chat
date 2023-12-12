@@ -135,10 +135,6 @@ export class ChatGateway {
   @SubscribeMessage('groupMessage')
   async sendGroupMessage(@MessageBody() data: GroupMessageDto):Promise<any> {
     const isUser = await this.userRepository.findOne({userId: data.userId});
-    // console.log('data', data);
-    if (data.content) {
-      data.content = encrypt(data.content, true);
-    }
     if(isUser) {
       const userGroupMap = await this.groupUserRepository.findOne({userId: data.userId, groupId: data.groupId});
       if(!userGroupMap || !data.groupId) {
@@ -149,7 +145,7 @@ export class ChatGateway {
         const randomName = `${Date.now()}$${data.userId}$${data.width}$${data.height}`;
         const stream = createWriteStream(join('public/static', randomName));
         stream.write(data.content);
-        data.content = randomName;
+        data.content = encrypt(randomName, true);
       }
       data.time = new Date().valueOf(); // 使用服务端时间
       await this.groupMessageRepository.save(data);
@@ -244,7 +240,7 @@ export class ChatGateway {
           const randomName = `${Date.now()}$${roomId}$${data.width}$${data.height}`;
           const stream = createWriteStream(join('public/static', randomName));
           stream.write(data.content);
-          data.content = randomName;
+          data.content = encrypt(randomName, true);
         }
         data.time = new Date().valueOf();
         await this.friendMessageRepository.save(data);
@@ -387,7 +383,7 @@ export class ChatGateway {
         });
       }
     }
-    console.log('activeGroupUserGather', this.roomId);
+    console.log('activeGroupUserGather', activeGroupUserGather);
     this.server.to(this.roomId || this.defaultGroup).emit('activeGroupUser',{
       msg: 'activeGroupUser', 
       data: activeGroupUserGather
