@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { AxiosResponse } from 'axios';
 import CryptoJS from 'crypto-js';
+import remakeChat from './strategy';
 
 // 处理所有后端返回的数据
 export function processReturn(res: AxiosResponse<ServerRes>) {
@@ -26,7 +27,7 @@ export function isContainStr(str1: string, str2: string) {
  * @param text 文本
  */
 export function parseText(text: string) {
-  return text;
+  return remakeChat(text);
 }
 
 /**

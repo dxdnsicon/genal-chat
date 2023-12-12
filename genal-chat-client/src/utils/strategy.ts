@@ -46,17 +46,5 @@ const remkaeMessage = (content: string) => {
 };
 
 export default function remakeChat(payload: any): any {
-  console.log('payload', payload);
-  if (Array.isArray(payload)) {
-    payload.forEach((item) => {
-      if (item.content) {
-        item.content = remkaeMessage(item.content);
-      }
-    });
-  } else {
-    if (payload?.content) {
-      payload.content = remkaeMessage(payload?.content);
-    }
-  }
-  return payload;
+  return remkaeMessage(payload);
 }
